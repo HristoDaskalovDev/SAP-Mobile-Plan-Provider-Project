@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
         validateFields(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        setRoleUser(user);
 
         UserEntity userEntity = ObjectMapper.convertObject(user, UserEntity.class);
         userEntity = userRepository.save(userEntity);
@@ -60,11 +59,12 @@ public class UserServiceImpl implements UserService {
         validateFieldByRegex(user.getPassword(), Constants.PASSWORD_REGEX, "password");
         validateFieldByRegex(user.getNationalId(), Constants.NATIONAL_ID_REGEX, "national_id");
         fieldIsNotEmptyAndHasValidLength(user.getAddress(), Constants.ADDRESS_MAX_LENGTH, "address");
+        validateAndSetUserRole(user);
     }
 
-    private void setRoleUser(User user) {
-        Role role = roleService.getRoleByName(Constants.ROLE_USER);
-        user.setRole(role);
+    private void validateAndSetUserRole(User user) {
+        Role existingRole = roleService.getRoleByName(user.getRole().getName());
+        user.setRole(existingRole);
     }
 
     @Override
@@ -104,6 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsersByPlanNameOrUsername(String name) {
+        name = name.trim();
         List<User> usersByName = getAllUsersByName(name);
         List<User> usersByPlanName = getUsersByPhonePlanName(name);
         List<User> result = new ArrayList<>();

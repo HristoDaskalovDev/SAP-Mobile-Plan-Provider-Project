@@ -2,11 +2,14 @@ package com.hristodaskalov.mobileplanprovider.controller;
 
 import com.hristodaskalov.mobileplanprovider.dto.GeneralPlanDto;
 import com.hristodaskalov.mobileplanprovider.dto.PhonePlanDto;
+import com.hristodaskalov.mobileplanprovider.dto.UserDto;
 import com.hristodaskalov.mobileplanprovider.model.GeneralPlan;
+import com.hristodaskalov.mobileplanprovider.model.PhonePlan;
 import com.hristodaskalov.mobileplanprovider.model.User;
 import com.hristodaskalov.mobileplanprovider.service.GeneralPlanService;
 import com.hristodaskalov.mobileplanprovider.service.PhonePlanService;
 import com.hristodaskalov.mobileplanprovider.service.UserService;
+import com.hristodaskalov.mobileplanprovider.utils.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/users/{id}/plans")
 public class PlanController {
 
     private final GeneralPlanService generalPlanService;
@@ -33,10 +38,30 @@ public class PlanController {
         this.phonePlanService = phonePlanService;
     }
 
-    @GetMapping("/users/{id}/plans")
-    public String getPlanDetailsForm(@PathVariable("id") Long userId,
-                                     @ModelAttribute GeneralPlanDto generalPlanDto,
-                                     Model model) {
+    @GetMapping
+    public String getUserDetails(@PathVariable("id") Long userId, Model model) {
+        List<PhonePlan> phonePlans = phonePlanService.getPhonePlansByUserId(userId);
+        phonePlanService.setPaymentDueDateFromCreatedTs(phonePlans);
+        List<PhonePlanDto> phonePlanDtos = ObjectMapper.convertList(phonePlans, PhonePlanDto.class);
+        model.addAttribute("phonePlansList", phonePlanDtos);
+
+        if (!phonePlanDtos.isEmpty()) {
+            UserDto userDto = ObjectMapper.convertObject(phonePlanDtos.get(0).getUser(), UserDto.class);
+            model.addAttribute("user", userDto);
+        }
+
+        List<GeneralPlan> generalPlans = generalPlanService.getAllGeneralPlans();
+        List<GeneralPlanDto> generalPlanDtos = ObjectMapper.convertList(generalPlans, GeneralPlanDto.class);
+        model.addAttribute("generalPlanList", generalPlanDtos);
+        model.addAttribute("generalPlan", new GeneralPlanDto());
+
+        return "user-phone-plans";
+    }
+
+    @GetMapping("/create")
+    public String getCreatePlanForm(@PathVariable("id") Long userId,
+                                    @ModelAttribute GeneralPlanDto generalPlanDto,
+                                    Model model) {
 
         GeneralPlan generalPlan = generalPlanService.getGeneralPlanById(generalPlanDto.getId());
         model.addAttribute("generalPlan", generalPlan);
@@ -46,7 +71,7 @@ public class PlanController {
         return "plan-details";
     }
 
-    @PostMapping("/users/{id}/plans/{generalPlanId}")
+    @PostMapping("/{generalPlanId}/create")
     public String createPlan(@PathVariable("id") Long userId,
                              @PathVariable("generalPlanId") Long generalPlanId,
                              @ModelAttribute PhonePlanDto phonePlanDto) {

@@ -1,7 +1,5 @@
 package com.hristodaskalov.mobileplanprovider.dto;
 
-import com.hristodaskalov.mobileplanprovider.model.Role;
-
 import java.time.LocalDateTime;
 
 public class UserDto {
@@ -11,7 +9,7 @@ public class UserDto {
     private String password;
     private String nationalId;
     private String address;
-    private Role role;
+    private RoleDto role;
     private LocalDateTime createdTs;
 
     //TODO change role to DTO
@@ -66,11 +64,11 @@ public class UserDto {
         this.address = address;
     }
 
-    public Role getRole() {
+    public RoleDto getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(RoleDto role) {
         this.role = role;
     }
 

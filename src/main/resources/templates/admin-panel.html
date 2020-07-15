@@ -24,14 +24,12 @@
                 <span
                         class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" th:href="@{/admin}">Registration and
-                Login Module</a>
+            <a class="navbar-brand" href="#" th:href="@{/admin}">Home</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
             </ul>
-        </div>
         </div>
     </div>
 </nav>
@@ -42,32 +40,31 @@
 
     <br>
     <br>
-    <h2>Find Users</h2>
+    <h1>Find Users</h1>
     <br>
     <br>
 
     <form th:object="${search}" action="user-list.html" th:action="@{/admin/users/find}" method="get" class="form-horizontal"
           id="search-user-form">
-        <fieldset>
+        <fieldset class="control-group">
             <div class="control-group" id="name">
-                <input type="text" th:field="*{param}" width="200px" height="34"
-                       maxlength="80" placeholder="Search by name or plan"/>
-                <button type="submit" class="btn btn-secondary">Find User</button>
+                <input class="form-control" type="text" th:field="*{param}" width="200px" height="34"
+                       maxlength="80"  style="float: left;" placeholder="Search by name or plan"/>
+                <button type="submit" class="btn btn-secondary" style="float:left; margin-top: 5px">Find User</button>
             </div>
         </fieldset>
     </form>
 
     <br>
     <br>
-    <div >
+    <div>
         <form th:action="@{/admin/users/registration}" method="get" class="form-horizontal" id="register-user-form">
-            <button type="submit" class="btn btn-success">Add User</button>
+            <button type="submit" class="btn btn-success" style="float:left; margin-right: 20px">Add User</button>
         </form>
         <form th:action="@{/admin/users/find/due-payment}" method="get" class="form-horizontal" >
-            <button type="submit" class="btn btn-info">Find Due Payment</button>
+            <button type="submit" class="btn btn-info" style="float:left">Find Due Payment</button>
         </form>
     </div>
-
 
 </div>
 </body>

@@ -26,6 +26,7 @@ public class UserController {
     @GetMapping
     public String getUserPanel(Model model) {
         List<PhonePlan> phonePlans = phonePlanService.getLoggedUserPhonePlans();
+        phonePlanService.setPaymentDueDateFromCreatedTs(phonePlans);
         List<PhonePlanDto> phonePlanDtos = ObjectMapper.convertList(phonePlans, PhonePlanDto.class);
         model.addAttribute("phonePlansList", phonePlanDtos);
 

@@ -19,4 +19,6 @@ public interface PhonePlanService {
     List<PhonePlan> getPhonePlansByName(String name);
 
     List<PhonePlan> getAllDuePhonePlans();
+
+    void setPaymentDueDateFromCreatedTs(List<PhonePlan> phonePlans);
 }

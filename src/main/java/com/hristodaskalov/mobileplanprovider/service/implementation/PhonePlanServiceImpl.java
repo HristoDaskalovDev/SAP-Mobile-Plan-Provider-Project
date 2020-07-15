@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.hristodaskalov.mobileplanprovider.utils.Validation.fieldIsNotEmptyAndHasValidLength;
@@ -82,9 +81,7 @@ public class PhonePlanServiceImpl implements PhonePlanService {
     public List<PhonePlan> getLoggedUserPhonePlans() {
         String email = getUsernameFromPrincipal();
         List<PhonePlanEntity> phonePlanEntities = phonePlanRepository.getAllByUserUsername(email);
-        List<PhonePlan> phonePlans = ObjectMapper.convertList(phonePlanEntities, PhonePlan.class);
-        setPaymentDueDateFromCreatedTs(phonePlans);
-        return phonePlans;
+        return ObjectMapper.convertList(phonePlanEntities, PhonePlan.class);
     }
 
     private String getUsernameFromPrincipal() {
@@ -96,11 +93,8 @@ public class PhonePlanServiceImpl implements PhonePlanService {
         }
     }
 
-    private void setPaymentDueDateFromCreatedTs(List<PhonePlan> phonePlans) {
+    public void setPaymentDueDateFromCreatedTs(List<PhonePlan> phonePlans) {
         if (!phonePlans.isEmpty()) {
-
-            //TODO see to format date
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT);
             for (PhonePlan phonePlan : phonePlans) {
                 LocalDateTime now = LocalDateTime.now();
                 LocalDateTime paymentDueDate = phonePlan.getCreatedTs();
@@ -108,7 +102,6 @@ public class PhonePlanServiceImpl implements PhonePlanService {
                 int months = now.getMonthValue() - paymentDueDate.getMonthValue();
                 paymentDueDate = paymentDueDate.plusYears(years);
                 paymentDueDate = paymentDueDate.plusMonths(months);
-//                paymentDueDate = paymentDueDate.re
                 phonePlan.setCreatedTs(paymentDueDate);
             }
         }

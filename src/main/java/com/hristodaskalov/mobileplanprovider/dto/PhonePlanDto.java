@@ -15,8 +15,6 @@ public class PhonePlanDto {
     private GeneralPlanDto generalPlan;
     private LocalDateTime createdTs;
 
-    //TODO make the fields DTOS
-
 
     public PhonePlanDto() {
     }

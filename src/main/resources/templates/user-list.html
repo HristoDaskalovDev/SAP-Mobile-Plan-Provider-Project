@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" xmlns:layout="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="ISO-8859-1">
     <title>Registration and Login App</title>
@@ -12,7 +12,6 @@
 
 </head>
 <body>
-<!-- create navigation bar ( header) -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -23,8 +22,7 @@
                     class="icon-bar"></span> <span class="icon-bar"></span> <span
                     class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" th:href="@{/admin}">Registration and
-                Login Module</a>
+            <a class="navbar-brand" href="#" th:href="@{/admin}">Home</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -50,7 +48,7 @@
         <tbody>
         <tr th:each="user : ${selections}">
             <td>
-                <a th:href="@{|/admin/users/${user.id}/details|}"
+                <a th:href="@{|/admin/users/${user.id}/plans|}"
                    th:text="|${user.name}|"></a>
             </td>
             <td th:text="${user.username}"></td>
