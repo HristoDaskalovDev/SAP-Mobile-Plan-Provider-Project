@@ -45,10 +45,8 @@ public class PlanController {
         List<PhonePlanDto> phonePlanDtos = ObjectMapper.convertList(phonePlans, PhonePlanDto.class);
         model.addAttribute("phonePlansList", phonePlanDtos);
 
-        if (!phonePlanDtos.isEmpty()) {
-            UserDto userDto = ObjectMapper.convertObject(phonePlanDtos.get(0).getUser(), UserDto.class);
-            model.addAttribute("user", userDto);
-        }
+        UserDto userDto = ObjectMapper.convertObject(userService.getUserById(userId), UserDto.class);
+        model.addAttribute("user", userDto);
 
         List<GeneralPlan> generalPlans = generalPlanService.getAllGeneralPlans();
         List<GeneralPlanDto> generalPlanDtos = ObjectMapper.convertList(generalPlans, GeneralPlanDto.class);
