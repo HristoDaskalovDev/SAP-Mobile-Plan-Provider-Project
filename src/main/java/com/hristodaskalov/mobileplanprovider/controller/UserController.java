@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user/phone-plans")
+@RequestMapping("/user")
 public class UserController {
 
-    private PhonePlanService phonePlanService;
+    private final PhonePlanService phonePlanService;
 
     @Autowired
     public UserController(PhonePlanService phonePlanService) {
         this.phonePlanService = phonePlanService;
     }
 
-    @GetMapping
+    @GetMapping("/phone-plans")
     public String getUserPanel(Model model) {
         List<PhonePlan> phonePlans = phonePlanService.getLoggedUserPhonePlans();
         phonePlanService.setPaymentDueDateFromCreatedTs(phonePlans);

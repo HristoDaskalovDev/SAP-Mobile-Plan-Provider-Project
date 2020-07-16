@@ -1,5 +1,8 @@
 package com.hristodaskalov.mobileplanprovider.configuration;
 
+import com.hristodaskalov.mobileplanprovider.mail.EmailConfig;
+import com.hristodaskalov.mobileplanprovider.mail.EmailService;
+import com.hristodaskalov.mobileplanprovider.mail.EmailServiceImpl;
 import com.hristodaskalov.mobileplanprovider.repository.GeneralPlanRepository;
 import com.hristodaskalov.mobileplanprovider.repository.PhonePlanRepository;
 import com.hristodaskalov.mobileplanprovider.repository.RoleRepository;
@@ -53,5 +56,10 @@ public class BeanConfig {
     @Bean
     public GeneralPlanService GeneralPlanService(GeneralPlanRepository generalPlanRepository) {
         return new GeneralPlanServiceImpl(generalPlanRepository);
+    }
+
+    @Bean
+    public EmailService EmailService(EmailConfig emailConfig) {
+        return new EmailServiceImpl(emailConfig);
     }
 }

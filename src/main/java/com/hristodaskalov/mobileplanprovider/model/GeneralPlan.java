@@ -68,6 +68,4 @@ public class GeneralPlan {
     public LocalDateTime getCreatedTs() {
         return createdTs;
     }
-
-    //TODO MAYBE DELETE TIMESTAMP FIELDS WHERE THEY ARE NOT NEEDED
 }

@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public AdminController(UserService userService) {
@@ -40,7 +40,7 @@ public class AdminController {
     }
 
     @PostMapping("/users/create")
-    public String registerUserAccount(@ModelAttribute("user") UserDto userDto, Model model) {
+    public String registerUserAccount(@ModelAttribute("user") UserDto userDto) {
         User user = ObjectMapper.convertObject(userDto, User.class);
         userService.createUser(user);
         return "redirect:/admin?success";

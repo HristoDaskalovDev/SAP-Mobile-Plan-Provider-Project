@@ -123,7 +123,6 @@ public class UserServiceImpl implements UserService {
         return getDistinctUsersFromPhonePlans(phonePlans);
     }
 
-    //TODO CHECK DB LOADING
     private List<User> getDistinctUsersFromPhonePlans(List<PhonePlan> phonePlans) {
         List<Long> distinctUserIds = phonePlans.stream().map(
                 phonePlan -> phonePlan.getUser().getId()).collect(Collectors.toList()

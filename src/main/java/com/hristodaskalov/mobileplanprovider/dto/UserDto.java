@@ -12,7 +12,6 @@ public class UserDto {
     private RoleDto role;
     private LocalDateTime createdTs;
 
-    //TODO change role to DTO
     public UserDto() {
     }
 
